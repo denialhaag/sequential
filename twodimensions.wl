@@ -108,7 +108,7 @@ CountCycles[\[Alpha]_, \[Beta]_, k_] :=
 
 
 WeingartenFunction[\[Sigma]_, \[Tau]_, k_] :=
-    GetFunctions[[Position[functions[[All, 1]], Type[\[Sigma] \[PermutationProduct] InversePermutation[
+    GetFunctions[k][[Position[GetFunctions[k][[All, 1]], Type[\[Sigma] \[PermutationProduct] InversePermutation[
         \[Tau]], k]][[1, 1]]]][[2]] /. Global`n -> Global`d * Global`\[Chi]^2
 
 
