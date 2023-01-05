@@ -5,6 +5,8 @@ BeginPackage["onedimension`"];
 
 ImportFunctions::usage = "";
 
+GetFunctions::usage = "";
+
 SetPerms::usage = "";
 
 CreatePerms::usage = "";
@@ -32,12 +34,35 @@ Begin["`Private`"];
 ImportFunctions[k_] :=
     (file = FileNameJoin[{NotebookDirectory[], "functions", StringJoin[
         "functions", ToString[k], ".txt"]}]; functions = ToExpression[StringReplace[
-        ReadString[file], {"**" -> "^", "]" -> "}", "[" -> "{"}]]; Return[functions
-        ])
+        ReadString[file], {"**" -> "^", "]" -> "}", "[" -> "{"}]]; functions)
 
 
-SetPerms[list_] :=
-    Global`Perms = list
+GetFunctions[k_] :=
+    If[ValueQ[Global`Functions],
+        If[MemberQ[Keys[Global`Functions], ToString[k]],
+            Return[Global`Functions[[ToString[k]]]]
+            ,
+            Global`Functions = Append[Global`Functions, ToString[k] ->
+                 ImportFunctions[k]]; Return[Global`Functions[[ToString[k]]]]
+        ]
+        ,
+        Global`Functions = Association[{ToString[k] -> ImportFunctions[
+            k]}]; Return[Global`Functions[[ToString[k]]]]
+    ]
+
+
+SetPerms[k_, list_] :=
+    If[ValueQ[Global`Perms],
+        If[MemberQ[Keys[Global`Perms], ToString[k]],
+            Global`Perms[[ToString[k]]] = list
+            ,
+            Global`Perms = Append[Global`Perms, ToString[k] -> CreatePerms[
+                k]]; Return[Global`Perms[[ToString[k]]]]
+        ]
+        ,
+        Global`Perms = Association[{ToString[k] -> CreatePerms[k]}]; 
+            Return[Global`Perms[[ToString[k]]]]
+    ]
 
 
 CreatePerms[k_] :=
@@ -49,15 +74,21 @@ CreatePerms[k_] :=
             AppendTo[S, Sort[R[[i]]]]
         ];
         S = Flatten[S];
-        Return[S]
+        S
     )
 
 
 GetPerms[k_] :=
     If[ValueQ[Global`Perms],
-        Return[Global`Perms]
+        If[MemberQ[Keys[Global`Perms], ToString[k]],
+            Return[Global`Perms[[ToString[k]]]]
+            ,
+            Global`Perms = Append[Global`Perms, ToString[k] -> CreatePerms[
+                k]]; Return[Global`Perms[[ToString[k]]]]
+        ]
         ,
-        Return[CreatePerms[k]]
+        Global`Perms = Association[{ToString[k] -> CreatePerms[k]}]; 
+            Return[Global`Perms[[ToString[k]]]]
     ]
 
 
@@ -65,42 +96,39 @@ Type[\[Alpha]_, k_] :=
     (
         type = Reverse[Sort[(Map[Length]) @@ \[Alpha]]];
         temp = Total[type];
-        For[l = 1, l <= k - temp, l++,
+        For[i = 1, i <= k - temp, i++,
             type = AppendTo[type, 1]
         ];
-        Return[type]
+        type
     )
 
 
 CountCycles[\[Alpha]_, \[Beta]_, k_] :=
-    Return[Length[Type[\[Alpha] \[PermutationProduct] \[Beta], k]]]
+    Length[Type[\[Alpha] \[PermutationProduct] \[Beta], k]]
 
 
 WeingartenFunction[\[Sigma]_, \[Tau]_, k_] :=
-    (functions = ImportFunctions[k]; Return[functions[[Position[functions
-        [[All, 1]], Type[\[Sigma] \[PermutationProduct] InversePermutation[\[Tau]], k]][[1, 1]]]][[2]] /. Global`n
-         -> Global`d * Global`\[Chi]])
+    GetFunctions[k][[Position[functions[[All, 1]], Type[\[Sigma] \[PermutationProduct] InversePermutation[
+        \[Tau]], k]][[1, 1]]]][[2]] /. Global`n -> Global`d * Global`\[Chi]
 
 
 W[k_] :=
-    (perms = GetPerms[k]; Return[Table[\[Sigma] = perms[[i]]; \[Tau] = perms[[j]]
-        ; WeingartenFunction[\[Sigma], \[Tau], k] /. Global`n -> Global`d * Global`\[Chi], {i,
-         1, k!}, {j, 1, k!}]])
+    Table[WeingartenFunction[\[Sigma], \[Tau], k], {\[Sigma], GetPerms[k]}, {\[Tau], GetPerms[
+        k]}]
 
 
 X[\[Rho]_, k_] :=
-    (perms = GetPerms[k]; Return[DiagonalMatrix[Table[\[Sigma] = perms[[i]];
-         Global`d ^ CountCycles[\[Sigma], \[Rho], k], {i, 1, k!}]]])
+    DiagonalMatrix[Table[Global`d ^ CountCycles[\[Sigma], \[Rho], k], {\[Sigma], GetPerms[
+        k]}]]
 
 
 Y[k_] :=
-    (perms = GetPerms[k]; Return[Table[\[Sigma] = perms[[i]]; \[Theta] = perms[[j]]
-        ; Global`\[Chi] ^ CountCycles[\[Sigma], InversePermutation[\[Theta]], k], {i, 1, k!}, {j,
-         1, k!}]])
+    Table[Global`\[Chi] ^ CountCycles[\[Sigma], InversePermutation[\[Theta]], k], {\[Sigma], GetPerms[
+        k]}, {\[Theta], GetPerms[k]}]
 
 
 T[\[Rho]_, k_] :=
-    Return[FullSimplify[W[k] . X[\[Rho], k] . Y[k]]]
+    FullSimplify[W[k] . X[\[Rho], k] . Y[k]]
 
 
 End[];
