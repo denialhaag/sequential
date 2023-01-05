@@ -56,12 +56,12 @@ SetPerms[k_, list_] :=
         If[MemberQ[Keys[Global`Perms], ToString[k]],
             Global`Perms[[ToString[k]]] = list
             ,
-            Global`Perms = Append[Global`Perms, ToString[k] -> CreatePerms[
-                k]]; Return[Global`Perms[[ToString[k]]]]
+            Global`Perms = Append[Global`Perms, ToString[k] -> list];
+                 Return[Global`Perms[[ToString[k]]]]
         ]
         ,
-        Global`Perms = Association[{ToString[k] -> CreatePerms[k]}]; 
-            Return[Global`Perms[[ToString[k]]]]
+        Global`Perms = Association[{ToString[k] -> list}]; Return[Global`Perms
+            [[ToString[k]]]]
     ]
 
 

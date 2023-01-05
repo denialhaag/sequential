@@ -56,12 +56,12 @@ SetPerms[k_, list_] :=
         If[MemberQ[Keys[Global`Perms], ToString[k]],
             Global`Perms[[ToString[k]]] = list
             ,
-            Global`Perms = Append[Global`Perms, ToString[k] -> CreatePerms[
-                k]]; Return[Global`Perms[[ToString[k]]]]
+            Global`Perms = Append[Global`Perms, ToString[k] -> list];
+                 Return[Global`Perms[[ToString[k]]]]
         ]
         ,
-        Global`Perms = Association[{ToString[k] -> CreatePerms[k]}]; 
-            Return[Global`Perms[[ToString[k]]]]
+        Global`Perms = Association[{ToString[k] -> list}]; Return[Global`Perms
+            [[ToString[k]]]]
     ]
 
 
@@ -114,26 +114,27 @@ WeingartenFunction[\[Sigma]_, \[Tau]_, k_] :=
 
 W[k_] :=
     Table[
-        If[\[Tau] == \[Tau]2 && \[Sigma] == \[Sigma]2 == \[Sigma]3,
-            WeingartenFunction[\[Sigma], \[Tau], k]
+        If[i1 == i2 && j1 == j2 == j3,
+            WeingartenFunction[GetPerms[k][[j1]], GetPerms[k][[i1]], 
+                k]
             ,
             0
         ]
         ,
-        {\[Tau], GetPerms[k]}
+        {i1, 1, k!}
         ,
-        {\[Tau]2, GetPerms[k]}
+        {i2, 1, k!}
         ,
-        {\[Sigma], GetPerms[k]}
+        {j1, 1, k!}
         ,
-        {\[Sigma]2, GetPerms[k]}
+        {j2, 1, k!}
         ,
-        {\[Sigma]3, GetPerms[k]}
+        {j3, 1, k!}
     ]
 
 
 X[\[Rho]_, k_] :=
-    Table[Global`d ^ CountCycles[\[Sigma], \[Rho], k], {\[Sigma], GetPerms[k];}]
+    Table[Global`d ^ CountCycles[\[Sigma], \[Rho], k], {\[Sigma], GetPerms[k]}]
 
 
 Y[k_] :=
