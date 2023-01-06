@@ -50,8 +50,8 @@ Type[\[Alpha]_, k_] :=
 
 
 CreatePerms[k_] :=
-    Flatten[GatherBy[Sort[GroupElements[SymmetricGroup[k]]], {Type[#,
-         k]&, PermutationSupport[#]&}]]
+    Flatten[GatherBy[SortBy[GroupElements[SymmetricGroup[k]], PermutationLength[
+        #]&], {Type[#, k]&, PermutationSupport[#]&}]]
 
 
 GetPerms[k_] :=
