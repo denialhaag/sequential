@@ -17,7 +17,7 @@ Begin["`Private`"];
 
 W[k_] :=
     Table[Weingarten[\[Sigma] \[PermutationProduct] InversePermutation[\[Tau]], k, Global`d * Global`\[Chi]
-        ], {\[Sigma], GetPerms[k]}, {\[Tau], GetPerms[k]}]
+        ], {\[Tau], GetPerms[k]}, {\[Sigma], GetPerms[k]}]
 
 
 X[\[Rho]_, k_] :=
