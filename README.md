@@ -6,9 +6,9 @@ Note that the bond dimension is denoted by $\xi$ instead of $D$.
 
 ## Supporting Material for Results in One Dimension
 
-`analytical_evidence.nb` shows that Conjecture 1 holds for  $k \in \{ 2, 3, 4 \}$.
+`analytical_evidence.nb` shows that Conjecture 1 holds for  $k \in \lbrace 2, 3, 4 \rbrace$.
 
-`numerical_evidence.nb` provides numerical evidence suggesting that Conjecture 1 holds for  $k \in \{ 5, 6, 7 \}$.
+`numerical_evidence.nb` provides numerical evidence suggesting that Conjecture 1 holds for  $k \in \lbrace 5, 6, 7 \rbrace$.
 
 `mps_norm.nb` supports Appendix H.
 
