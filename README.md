@@ -1,6 +1,8 @@
 # weingarten
 
-This repository supports arxiv.23XX:XXXXX. The directory `functions` is taken from the [RTNI package](https://github.com/MotohisaFukuda/RTNI).
+This repository supports [arxiv:2301.04624](https://arxiv.org/abs/2301.04624).
+
+The directory `functions` is taken from the [RTNI package](https://github.com/MotohisaFukuda/RTNI).
 
 Note that the bond dimension is denoted by $\xi$ instead of $D$.
 
@@ -15,3 +17,9 @@ Note that the bond dimension is denoted by $\xi$ instead of $D$.
 ## Supporting Material for Results in Two Dimensions
 
 `iso_norm.nb` supports Appendix N.
+
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE.md). Please include the following reference when you using it.
+
+Daniel Haag, Flavio Baccari, and Georgios Styliaris, Typical Correlation Length of Sequentially Generated Tensor Network States, [arXiv:2301.04624 [quant-ph]](https://arxiv.org/abs/2301.04624).
