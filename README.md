@@ -1,6 +1,6 @@
 # weingarten
 
-This repository supports [arxiv:2301.04624](https://arxiv.org/abs/2301.04624).
+This project supports [arxiv:2301.04624](https://arxiv.org/abs/2301.04624).
 
 The directory `functions` is taken from the [RTNI package](https://github.com/MotohisaFukuda/RTNI).
 
