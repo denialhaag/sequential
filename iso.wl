@@ -3,23 +3,17 @@
 BeginPackage["iso`", {"utilities`"}];
 
 
-W::usage = "";
-
-X::usage = "";
-
-Y::usage = "";
-
 T::usage = "";
 
 
 Begin["`Private`"];
 
 
-W[k_] :=
+W[k_, d_, \[Chi]_] :=
     Table[
         If[i1 == i2 && j1 == j2 == j3,
             Weingarten[GetPerms[k][[j1]] \[PermutationProduct] InversePermutation[GetPerms[
-                k][[i1]]], k, Global`d * Global`\[Chi]^2]
+                k][[i1]]], k, d * \[Chi]^2]
             ,
             0
         ]
@@ -36,18 +30,18 @@ W[k_] :=
     ]
 
 
-X[\[Rho]_, k_] :=
-    Table[Global`d ^ CountCycles[\[Sigma] \[PermutationProduct] \[Rho], k], {\[Sigma], GetPerms[k]}]
+X[\[Rho]_, k_, d_] :=
+    Table[d ^ CountCycles[\[Sigma] \[PermutationProduct] \[Rho], k], {\[Sigma], GetPerms[k]}]
 
 
-Y[k_] :=
-    Table[Global`\[Chi] ^ CountCycles[\[Sigma] \[PermutationProduct] InversePermutation[\[Theta]], k], {\[Sigma], GetPerms[
+Y[k_, \[Chi]_] :=
+    Table[\[Chi] ^ CountCycles[\[Sigma] \[PermutationProduct] InversePermutation[\[Theta]], k], {\[Sigma], GetPerms[
         k]}, {\[Theta], GetPerms[k]}]
 
 
-T[\[Rho]_, k_] :=
-    FullSimplify[Transpose[W[k] . X[\[Rho], k] . Y[k], {1, 2, 4, 3}] . Y[k
-        ]]
+T[\[Rho]_, k_, d_, \[Chi]_] :=
+    FullSimplify[Transpose[W[k, d, \[Chi]] . X[\[Rho], k, d] . Y[k, \[Chi]], {1, 2, 
+        4, 3}] . Y[k, \[Chi]]]
 
 
 End[];
