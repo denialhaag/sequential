@@ -2,7 +2,8 @@
 
 BeginPackage["mps`"];
 
-Needs["utilities`", FileNameJoin[{"packages", "utilities.wl"}]]
+Needs["utilities`", FileNameJoin[{Directory[], "packages", "utilities.wl"
+    }]]
 
 
 T::usage = "";
