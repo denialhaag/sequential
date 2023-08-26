@@ -2,8 +2,7 @@
 
 BeginPackage["iso`"];
 
-Needs["utilities`", FileNameJoin[{Directory[], "packages", "utilities.wl"
-    }]]
+Needs["utilities`", FileNameJoin[{"packages", "utilities.wl"}]];
 
 
 T::usage = "";
@@ -15,8 +14,8 @@ Begin["`Private`"];
 W[k_, d_, \[Chi]_] :=
     Table[
         If[i1 == i2 && j1 == j2 == j3,
-            Weingarten[GetPerms[k][[j1]] \[PermutationProduct] InversePermutation[GetPerms[
-                k][[i1]]], k, d * \[Chi]^2]
+            utilities`Weingarten[utilities`GetPermutations[k][[j1]] \[PermutationProduct]
+                 InversePermutation[utilities`GetPermutations[k][[i1]]], k, d * \[Chi]^2]
             ,
             0
         ]
@@ -34,12 +33,13 @@ W[k_, d_, \[Chi]_] :=
 
 
 X[\[Rho]_, k_, d_] :=
-    Table[d ^ CountCycles[\[Sigma] \[PermutationProduct] \[Rho], k], {\[Sigma], GetPerms[k]}]
+    Table[d ^ utilities`CountCycles[\[Sigma] \[PermutationProduct] \[Rho], k], {\[Sigma], utilities`GetPermutations[
+        k]}]
 
 
 Y[k_, \[Chi]_] :=
-    Table[\[Chi] ^ CountCycles[\[Sigma] \[PermutationProduct] InversePermutation[\[Theta]], k], {\[Sigma], GetPerms[
-        k]}, {\[Theta], GetPerms[k]}]
+    Table[\[Chi] ^ utilities`CountCycles[\[Sigma] \[PermutationProduct] InversePermutation[\[Theta]], k], {\[Sigma],
+         utilities`GetPermutations[k]}, {\[Theta], utilities`GetPermutations[k]}]
 
 
 T[\[Rho]_, k_, d_, \[Chi]_] :=

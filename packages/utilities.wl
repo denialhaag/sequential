@@ -3,17 +3,9 @@
 BeginPackage["utilities`"];
 
 
-ImportFunctions::usage = "";
-
-GetFunctions::usage = "";
-
-Type::usage = "";
-
-CreatePerms::usage = "";
-
-GetPerms::usage = "";
-
 CountCycles::usage = "";
+
+GetPermutations::usage = "";
 
 Weingarten::usage = "";
 
@@ -22,10 +14,9 @@ Begin["`Private`"];
 
 
 ImportFunctions[k_] :=
-    (file = FileNameJoin[{Directory[], "functions", StringJoin["functions",
-         ToString[k], ".txt"]}]; ToExpression[StringReplace[ReadString[file],
-         {"**" -> "^", "]" -> "}", "[" -> "{", "n" -> "utilities`Private`n"}]
-        ])
+    (file = FileNameJoin[{"functions", StringJoin["functions", ToString[
+        k], ".txt"]}]; ToExpression[StringReplace[ReadString[file], {"**" -> 
+        "^", "]" -> "}", "[" -> "{", "n" -> "utilities`Private`n"}]])
 
 
 GetFunctions[k_] :=
@@ -51,25 +42,26 @@ Type[\[Alpha]_, k_] :=
         temp] + Length[temp], 1])
 
 
-CreatePerms[k_] :=
+CreatePermutations[k_] :=
     Flatten[GatherBy[SortBy[GroupElements[SymmetricGroup[k]], PermutationLength[
         #]&], {PermutationSupport[#]&, Type[#, k]&}]]
 
 
-GetPerms[k_] :=
+GetPermutations[k_] :=
     (
-        If[ValueQ[utilities`Private`Perms],
-            If[MemberQ[Keys[utilities`Private`Perms], ToString[k]],
+        If[ValueQ[utilities`Private`Permutations],
+            If[MemberQ[Keys[utilities`Private`Permutations], ToString[
+                k]],
                 Null
                 ,
-                AppendTo[utilities`Private`Perms, ToString[k] -> CreatePerms[
-                    k]]
+                AppendTo[utilities`Private`Permutations, ToString[k] 
+                    -> CreatePermutations[k]]
             ]
             ,
-            utilities`Private`Perms = Association[{ToString[k] -> CreatePerms[
-                k]}];
+            utilities`Private`Permutations = Association[{ToString[k]
+                 -> CreatePermutations[k]}];
         ];
-        utilities`Private`Perms[[ToString[k]]]
+        utilities`Private`Permutations[[ToString[k]]]
     )
 
 
