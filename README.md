@@ -1,6 +1,6 @@
 # sequential
 
-This project supports PRX Quantum **4**, 030330 (2023).
+This project supports [PRX Quantum **4**, 030330 (2023)](https://arxiv.org/abs/2301.04624).
 
 The directory [`functions`](./functions) is taken from the [RTNI package](https://github.com/MotohisaFukuda/RTNI).
 
@@ -22,4 +22,4 @@ Note that the bond dimension is denoted by $\xi$ instead of $D$.
 
 This project is licensed under the terms of the [MIT License](./LICENSE.md). Please include the following reference when using it.
 
-Daniel Haag, Flavio Baccari, and Georgios Styliaris, Typical Correlation Length of Sequentially Generated Tensor Network States, PRX Quantum **4**, 030330 (2023).
+Daniel Haag, Flavio Baccari, and Georgios Styliaris, Typical Correlation Length of Sequentially Generated Tensor Network States, [PRX Quantum **4**, 030330 (2023)](https://arxiv.org/abs/2301.04624).
